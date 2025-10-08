@@ -1,0 +1,97 @@
+{
+  "metadata": {
+    "category": "critical",
+    "severity": "🔴 CRITICAL",
+    "description": "Vulnerabilidades críticas que bloquean el build automáticamente",
+    "cvss_range": "9.0-10.0",
+    "action": "block"
+  },
+  "dependencies": [
+    {
+      "name": "lodash",
+      "version": "<4.17.21",
+      "vulnerability": "Prototype pollution",
+      "cve": "CVE-2019-10744",
+      "description": "Permite manipulación de prototipos JavaScript que puede llevar a RCE",
+      "alternatives": [
+        "Usar métodos nativos de JavaScript (Array.map, Object.keys, etc.)",
+        "Ramda (funcional y sin mutaciones)",
+        "https://youmightnotneed.com/lodash"
+      ],
+      "fix": "Actualizar a lodash@4.17.21 o superior",
+      "references": [
+        "https://nvd.nist.gov/vuln/detail/CVE-2019-10744",
+        "https://github.com/lodash/lodash/commit/d8e069cc"
+      ]
+    },
+    {
+      "name": "axios",
+      "version": "<0.21.2",
+      "vulnerability": "SSRF vulnerabilities",
+      "cve": "CVE-2021-3749",
+      "description": "Server-Side Request Forgery que permite ataques internos",
+      "alternatives": [
+        "node-fetch (más ligero)",
+        "fetch nativo de Node.js 18+",
+        "undici (oficial de Node.js)"
+      ],
+      "fix": "Actualizar a axios@0.21.2 o superior",
+      "references": [
+        "https://nvd.nist.gov/vuln/detail/CVE-2021-3749",
+        "https://github.com/axios/axios/releases/tag/v0.21.2"
+      ]
+    },
+    {
+      "name": "moment",
+      "version": "*",
+      "vulnerability": "Multiple CVEs, deprecated",
+      "cve": "CVE-2022-24785, CVE-2022-31129",
+      "description": "Librería deprecada con múltiples vulnerabilidades sin mantenimiento",
+      "alternatives": [
+        "date-fns (modular y tree-shakeable)",
+        "dayjs (API compatible con moment)",
+        "API Intl nativa de JavaScript",
+        "Temporal (propuesta ECMAScript)"
+      ],
+      "fix": "Migrar completamente a una alternativa moderna",
+      "references": [
+        "https://momentjs.com/docs/#/-project-status/",
+        "https://github.com/you-dont-need/You-Dont-Need-Momentjs"
+      ]
+    },
+    {
+      "name": "debug",
+      "version": "<4.3.1",
+      "vulnerability": "ReDOS vulnerability",
+      "cve": "CVE-2017-20165",
+      "description": "Regular Expression Denial of Service que puede causar DoS",
+      "alternatives": [
+        "console.log con NODE_ENV checks",
+        "winston (logging robusto)",
+        "pino (logging de alto rendimiento)"
+      ],
+      "fix": "Actualizar a debug@4.3.1 o superior",
+      "references": [
+        "https://nvd.nist.gov/vuln/detail/CVE-2017-20165",
+        "https://github.com/debug-js/debug/commit/4a9bb30"
+      ]
+    },
+    {
+      "name": "validator",
+      "version": "<13.7.0",
+      "vulnerability": "Multiple validation bypasses",
+      "cve": "CVE-2021-3765",
+      "description": "Bypasses en validación que pueden permitir inyección de código",
+      "alternatives": [
+        "joi (validación de schemas robusta)",
+        "yup (validación orientada a objetos)",
+        "zod (TypeScript-first validation)"
+      ],
+      "fix": "Actualizar a validator@13.7.0 o superior", 
+      "references": [
+        "https://nvd.nist.gov/vuln/detail/CVE-2021-3765",
+        "https://github.com/validatorjs/validator.js/releases"
+      ]
+    }
+  ]
+}

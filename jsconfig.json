@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "module": "commonjs",
+    "paths": {
+      "#lib/*": ["/lib/*.js"],
+      "#src/*": ["./src/*.js"],
+      "#test/*": ["./test/*.js"]
+    }
+  },
+  "include": ["src", "lib", "test"]
+}

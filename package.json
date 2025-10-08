@@ -1,0 +1,84 @@
+{
+  "name": "eslint-config-lintastic",
+  "version": "1.0.0",
+  "description": "🛡️ Herramienta DevSecOps de análisis estático (SAST) para Node.js - OWASP Top 10 compliant con 47+ reglas de seguridad avanzadas",
+  "main": "lib/index.js",
+  "type": "module",
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "node --run lint -- --fix",
+    "test": "node --import ./test/setupTest.js --test",
+    "test:integration": "node --test ./test/integration/*",
+    "test:watch": "node --run test -- --watch",
+    "test:coverage": "npx c8 npm test"
+  },
+  "imports": {
+    "#lib/*": "./lib/*.js",
+    "#src/*": "./src/*.js",
+    "#test/*": "./test/*.js"
+  },
+  "files": [
+    "src/*",
+    "lib/*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/veradeveloper916/eslint-config-lintastic.git"
+  },
+  "keywords": [
+    "eslint",
+    "devsecops", 
+    "security",
+    "sast",
+    "owasp",
+    "vulnerability-scanner",
+    "static-analysis",
+    "code-security",
+    "eslint-config",
+    "security-linting",
+    "cybersecurity",
+    "secure-development"
+  ],
+  "author": "Esteban Vera <veradeveloper916>",
+  "license": "MIT",
+  "dependencies": {
+    "@stylistic/eslint-plugin-js": "^4.4.1",
+    "eslint-plugin-jsdoc": "^61.0.0",
+    "extensionless": "^1.9.9",
+    "globals": "^16.4.0"
+  },
+  "devDependencies": {
+    "@eslint/config-inspector": "^1.0.0",
+    "@eslint/js": "^9.18.0",
+    "c8": "^10.1.3",
+    "eslint": "^9.21.0"
+  },
+  "c8": {
+    "exclude": [
+      ".config.*"
+    ],
+    "include": [
+      "src/",
+      "lib/"
+    ],
+    "reporter": [
+      "text",
+      "html",
+      "lcov"
+    ],
+    "all": true,
+    "check-coverage": true,
+    "branches": 0,
+    "functions": 0,
+    "lines": 0,
+    "statements": 0
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "bugs": {
+    "url": "https://github.com/veradeveloper916/eslint-config-lintastic/issues"
+  },
+  "homepage": "https://github.com/veradeveloper916/eslint-config-lintastic#readme"
+}

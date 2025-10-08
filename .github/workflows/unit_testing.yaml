@@ -1,0 +1,51 @@
+name: 🕵 Pull Request Automation
+
+on:
+  pull_request:
+    paths-ignore:
+      - '**/*.md'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  coverage:
+    name: 📊 Generate Test Coverage Report
+    environment: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🛎 Checkout Repository
+        uses: actions/checkout@v4
+      
+      # Setup LCOV CLI
+      - name: 📦 Setup LCOV
+        uses: hrishikesh-kadam/setup-lcov@v1
+        with:
+          ref: v2.1
+
+      # Setup Node.js environment
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
+
+      - name: 📥 Install Dependencies
+        run: npm ci --silent
+
+      - name: 🕵 Run Linter
+        run: npm run lint
+
+      - name: 🧪 Run tests with coverage
+        run: npm run test:coverage
+
+      - name: 🤖 Report code coverage
+        uses: zgosalvez/github-actions-report-lcov@v4
+        with:
+          coverage-files: coverage/lcov.info
+          artifact-name: coverage-report
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          update-comment: true
+
