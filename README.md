@@ -623,7 +623,6 @@ git checkout -b feature/nueva-regla-seguridad
 | Colaborador | Contribución Principal | GitHub |
 |-------------|----------------------|---------|
 | **Esteban Vera** | Autor & Maintainer | [@veradeveloper916](https://github.com/veradeveloper916) |
-| *Tu nombre aquí* | *Tu próxima contribución* | *Tu GitHub* |
 
 #### **💬 Canales de Comunicación**
 
