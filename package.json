@@ -1,25 +1,33 @@
 {
   "name": "eslint-config-lintastic",
-  "version": "1.0.0",
-  "description": "🛡️ Herramienta DevSecOps de análisis estático (SAST) para Node.js - OWASP Top 10 compliant con 47+ reglas de seguridad avanzadas",
+  "version": "2.1.0",
+  "description": "🛡️ DevSecOps ESLint Configuration - MVC Architecture with Functional Programming | OWASP Top 10 compliant with 47+ security rules | Modular & Scalable",
   "main": "lib/index.js",
   "type": "module",
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "node --run lint -- --fix",
-    "test": "node --import ./test/setupTest.js --test",
-    "test:integration": "node --test ./test/integration/*",
+    "test": "node --import ./tests/setupTest.js --test",
+    "test:unit": "node --test ./tests/unit/*",
+    "test:integration": "node --test ./tests/integration/*",
+    "test:security": "node --test ./tests/samples/*",
     "test:watch": "node --run test -- --watch",
-    "test:coverage": "npx c8 npm test"
+    "test:coverage": "npx c8 npm test",
+    "security:scan": "node --run lint -- --ext .js src/ lib/",
+    "security:report": "node --run test:security",
+    "dev:inspect": "npx @eslint/config-inspector",
+    "build:docs": "node scripts/generate-docs.js"
   },
   "imports": {
     "#lib/*": "./lib/*.js",
     "#src/*": "./src/*.js",
-    "#test/*": "./test/*.js"
+    "#tests/*": "./tests/*.js"
   },
   "files": [
-    "src/*",
-    "lib/*"
+    "src/**/*",
+    "lib/**/*",
+    "README.md",
+    "LICENSE"
   ],
   "repository": {
     "type": "git",
@@ -37,9 +45,15 @@
     "eslint-config",
     "security-linting",
     "cybersecurity",
-    "secure-development"
+    "secure-development",
+    "mvc-architecture",
+    "functional-programming",
+    "modular",
+    "scalable",
+    "nodejs-security",
+    "security-automation"
   ],
-  "author": "Esteban Vera <veradeveloper916>",
+  "author": "Esteban Vera (@veradeveloper916) <veradeveloper916>",
   "license": "MIT",
   "dependencies": {
     "@stylistic/eslint-plugin-js": "^4.4.1",
@@ -75,7 +89,7 @@
   },
   "directories": {
     "lib": "lib",
-    "test": "test"
+    "test": "tests"
   },
   "bugs": {
     "url": "https://github.com/veradeveloper916/eslint-config-lintastic/issues"

@@ -1,0 +1,257 @@
+{
+  "metadata": {
+    "category": "security-patterns",
+    "type": "AST security patterns",
+    "description": "Patrones AST para detección de vulnerabilidades de seguridad",
+    "lastUpdated": "2024-10-08",
+    "version": "1.0.0",
+    "totalPatterns": 25
+  },
+  "patterns": [
+    {
+      "selector": "CallExpression[callee.name='eval']",
+      "message": "eval() está prohibido. RIESGO: Code injection attack. Usa alternativas seguras.",
+      "severity": "critical",
+      "type": "code-injection",
+      "owaspCategory": "A03:2021",
+      "description": "Detecta uso directo de eval() que permite ejecución de código arbitrario",
+      "alternatives": ["JSON.parse", "Function constructors específicos", "Sandboxing apropiado"],
+      "examples": ["eval('maliciousCode()')"],
+      "references": ["https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval#never_use_eval!"]
+    },
+    {
+      "selector": "NewExpression[callee.name='Function']",
+      "message": "Function() constructor prohibido. RIESGO: Code injection. Usa funciones declaradas.",
+      "severity": "critical",
+      "type": "code-injection",
+      "owaspCategory": "A03:2021",
+      "description": "Detecta uso del constructor Function que es equivalente a eval",
+      "alternatives": ["Funciones declaradas", "Arrow functions", "Function expressions"],
+      "examples": ["new Function('return maliciousCode()')"]
+    },
+    {
+      "selector": "CallExpression[callee.name='setTimeout'][arguments.0.type='Literal']",
+      "message": "setTimeout con string es eval implícito. Usa función callback.",
+      "severity": "high",
+      "type": "code-injection",
+      "owaspCategory": "A03:2021",
+      "description": "setTimeout con string ejecuta código como eval",
+      "alternatives": ["setTimeout(() => {}, delay)", "setTimeout(namedFunction, delay)"],
+      "examples": ["setTimeout('maliciousCode()', 1000)"]
+    },
+    {
+      "selector": "CallExpression[callee.name='setInterval'][arguments.0.type='Literal']",
+      "message": "setInterval con string es eval implícito. Usa función callback.",
+      "severity": "high",
+      "type": "code-injection",
+      "owaspCategory": "A03:2021",
+      "description": "setInterval con string ejecuta código como eval",
+      "alternatives": ["setInterval(() => {}, delay)", "setInterval(namedFunction, delay)"],
+      "examples": ["setInterval('maliciousCode()', 1000)"]
+    },
+    {
+      "selector": "AssignmentExpression[left.property.name='innerHTML']",
+      "message": "Asignación a innerHTML vulnerable a XSS. Usa textContent o sanitización.",
+      "severity": "high",
+      "type": "xss-prevention",
+      "owaspCategory": "A03:2021",
+      "description": "innerHTML puede ejecutar scripts maliciosos",
+      "alternatives": ["textContent", "innerText", "DOM methods seguros", "DOMPurify"],
+      "examples": ["element.innerHTML = userInput"]
+    },
+    {
+      "selector": "CallExpression[callee.property.name='innerHTML']",
+      "message": "innerHTML puede ser vulnerable a XSS. Usa textContent o DOM methods seguros.",
+      "severity": "high",  
+      "type": "xss-prevention",
+      "owaspCategory": "A03:2021",
+      "description": "Acceso via método a innerHTML sin sanitización",
+      "alternatives": ["element.textContent", "element.appendChild()", "DOMPurify.sanitize()"]
+    },
+    {
+      "selector": "MemberExpression[property.name='__proto__']",
+      "message": "__proto__ puede causar prototype pollution. Usa Object.getPrototypeOf().",
+      "severity": "high",
+      "type": "prototype-pollution",
+      "owaspCategory": "A04:2021",
+      "description": "Acceso directo a __proto__ puede manipular prototipos",
+      "alternatives": ["Object.getPrototypeOf()", "Object.setPrototypeOf()", "Object.create()"],
+      "examples": ["obj.__proto__.isAdmin = true"]
+    },
+    {
+      "selector": "AssignmentExpression[left.property.name='__proto__']",
+      "message": "Asignación a __proto__ prohibida. RIESGO: Prototype pollution attack.",
+      "severity": "critical",
+      "type": "prototype-pollution",
+      "owaspCategory": "A04:2021",
+      "description": "Asignación directa a __proto__ permite prototype pollution",
+      "alternatives": ["Object.setPrototypeOf()", "Object.create()", "Factory functions"]
+    },
+    {
+      "selector": "CallExpression[callee.object.name='Math'][callee.property.name='random']",
+      "message": "Math.random() no es criptográficamente seguro. Usa crypto.randomBytes() para seguridad.",
+      "severity": "medium",
+      "type": "insecure-random",
+      "owaspCategory": "A02:2021",
+      "description": "Math.random() es predecible y no apto para seguridad",
+      "alternatives": ["crypto.randomBytes()", "crypto.getRandomValues()", "uuid.v4()"],
+      "examples": ["Math.random() * 1000000"]
+    },
+    {
+      "selector": "Property[key.name='password'][value.type='Literal']",
+      "message": "Password hardcodeado detectado. RIESGO: Credential exposure. Usa variables de entorno.",
+      "severity": "critical",
+      "type": "hardcoded-credentials",
+      "owaspCategory": "A07:2021",
+      "description": "Contraseñas hardcodeadas son un grave riesgo de seguridad",
+      "alternatives": ["process.env.PASSWORD", "Gestores de secrets", "Docker secrets"],
+      "examples": ["{ password: 'admin123' }"]
+    },
+    {
+      "selector": "Property[key.name='secret'][value.type='Literal']",
+      "message": "Secret hardcodeado detectado. RIESGO: Secret exposure. Usa variables de entorno.",
+      "severity": "critical",
+      "type": "hardcoded-credentials", 
+      "owaspCategory": "A07:2021",
+      "description": "Secrets hardcodeados comprometen la seguridad",
+      "alternatives": ["process.env.SECRET", "HashiCorp Vault", "AWS Secrets Manager"],
+      "examples": ["{ secret: 'mySecretKey123' }"]
+    },
+    {
+      "selector": "Property[key.name='apiKey'][value.type='Literal']",
+      "message": "API key hardcodeada detectada. RIESGO: API key exposure. Usa variables de entorno.",
+      "severity": "critical",
+      "type": "hardcoded-credentials",
+      "owaspCategory": "A07:2021",
+      "description": "API keys hardcodeadas pueden ser comprometidas",
+      "alternatives": ["process.env.API_KEY", "Gestores de configuración", "Servicios de secrets"],
+      "examples": ["{ apiKey: 'sk-1234567890abcdef' }"]
+    },
+    {
+      "selector": "CallExpression[callee.name='require'][arguments.0.type='TemplateLiteral']",
+      "message": "Require dinámico con template literal. RIESGO: Path traversal. Valida entrada.",
+      "severity": "medium",
+      "type": "path-traversal",
+      "owaspCategory": "A01:2021",
+      "description": "Require dinámico puede permitir carga de módulos no autorizados",
+      "alternatives": ["Whitelist de módulos", "Validación estricta de paths", "Import maps"],
+      "examples": ["require(`./modules/${userInput}`)"]
+    },
+    {
+      "selector": "CallExpression[callee.property.name='exec']",
+      "message": "exec() puede ejecutar comandos del sistema. RIESGO: Command injection. Valida entrada.",
+      "severity": "high",
+      "type": "command-injection",
+      "owaspCategory": "A03:2021",
+      "description": "exec() sin validación permite ejecución de comandos arbitrarios",
+      "alternatives": ["spawn() con argumentos separados", "Validación estricta", "Sandboxing"],
+      "examples": ["exec(`rm -rf ${userInput}`)"]
+    },
+    {
+      "selector": "CallExpression[callee.property.name='execSync']",
+      "message": "execSync() puede ejecutar comandos del sistema. RIESGO: Command injection. Valida entrada.",
+      "severity": "high",
+      "type": "command-injection",
+      "owaspCategory": "A03:2021",
+      "description": "execSync() sin validación es vulnerable a command injection",
+      "alternatives": ["spawnSync() con argumentos", "Validación de comandos", "Lista blanca de comandos"]
+    },
+    {
+      "selector": "NewExpression[callee.name='RegExp'][arguments.0.type='TemplateLiteral']",
+      "message": "RegExp dinámico con template literal. RIESGO: ReDoS attack. Valida patrón.",
+      "severity": "medium",
+      "type": "redos-vulnerability",
+      "owaspCategory": "A06:2021",
+      "description": "RegExp dinámicos pueden causar ReDoS (Regular Expression Denial of Service)",
+      "alternatives": ["Patrones regex predefinidos", "Validación de patrones", "Timeouts para regex"],
+      "examples": ["new RegExp(`^${userPattern}$`)"]
+    },
+    {
+      "selector": "CallExpression[callee.object.name='document'][callee.property.name='write']",
+      "message": "document.write() es vulnerable a XSS. Usa DOM methods seguros.",
+      "severity": "high",
+      "type": "xss-prevention",
+      "owaspCategory": "A03:2021",
+      "description": "document.write() puede ejecutar scripts maliciosos",
+      "alternatives": ["createElement()", "appendChild()", "textContent", "Frameworks modernos"],
+      "examples": ["document.write('<script>' + userInput + '</script>')"]
+    },
+    {
+      "selector": "CallExpression[callee.object.name='window'][callee.property.name='open'][arguments.0.type='TemplateLiteral']",
+      "message": "window.open() dinámico. RIESGO: Open redirect. Valida URL.",
+      "severity": "medium",
+      "type": "open-redirect",
+      "owaspCategory": "A01:2021",
+      "description": "window.open() con URLs dinámicas puede causar open redirects",
+      "alternatives": ["Lista blanca de URLs", "Validación de dominio", "Relative URLs"],
+      "examples": ["window.open(`https://${userDomain}/page`)"]
+    },
+    {
+      "selector": "AssignmentExpression[left.object.name='location'][left.property.name='href']",
+      "message": "Asignación directa a location.href. RIESGO: Open redirect. Valida URL.",
+      "severity": "medium",
+      "type": "open-redirect",
+      "owaspCategory": "A01:2021",
+      "description": "location.href sin validación puede causar redirects maliciosos",
+      "alternatives": ["URL validation", "Relative URLs", "location.assign() con validación"]
+    },
+    {
+      "selector": "CallExpression[callee.name='JSON'][callee.property.name='parse'][arguments.0.type='TemplateLiteral']",
+      "message": "JSON.parse() con template literal. RIESGO: Prototype pollution. Usa reviver function.",
+      "severity": "medium",
+      "type": "prototype-pollution",
+      "owaspCategory": "A04:2021",
+      "description": "JSON.parse() sin validación puede causar prototype pollution",
+      "alternatives": ["JSON.parse() con reviver", "Schema validation", "safe-json-parse"],
+      "examples": ["JSON.parse(`{\"__proto__\": ${userInput}}`)"]
+    },
+    {
+      "selector": "CallExpression[callee.object.name='localStorage'][callee.property.name='setItem'][arguments.1.type='TemplateLiteral']",
+      "message": "localStorage con datos dinámicos. RIESGO: XSS stored. Sanitiza datos.",
+      "severity": "medium",
+      "type": "xss-prevention",
+      "owaspCategory": "A03:2021",
+      "description": "localStorage puede almacenar datos maliciosos que se ejecuten después",
+      "alternatives": ["Sanitización de datos", "Validación de entrada", "Encryption de datos sensibles"]
+    },
+    {
+      "selector": "CallExpression[callee.object.name='sessionStorage'][callee.property.name='setItem'][arguments.1.type='TemplateLiteral']",
+      "message": "sessionStorage con datos dinámicos. RIESGO: XSS stored. Sanitiza datos.",
+      "severity": "medium",
+      "type": "xss-prevention",
+      "owaspCategory": "A03:2021",
+      "description": "sessionStorage puede almacenar scripts maliciosos",
+      "alternatives": ["Sanitización de datos", "Content Security Policy", "Validación estricta"]
+    },
+    {
+      "selector": "CallExpression[callee.property.name='postMessage'][arguments.1.value='*']",
+      "message": "postMessage con origen '*' es inseguro. Especifica origen target.",
+      "severity": "high",
+      "type": "insecure-communication",
+      "owaspCategory": "A05:2021",
+      "description": "postMessage con origen wildcard permite ataques cross-origin",
+      "alternatives": ["Especificar origen exacto", "Lista blanca de orígenes", "Validación de mensaje"],
+      "examples": ["postMessage(data, '*')"]
+    },
+    {
+      "selector": "CallExpression[callee.name='Buffer'][arguments.0.type='TemplateLiteral']",
+      "message": "Buffer con template literal. RIESGO: Buffer overflow. Valida tamaño.",
+      "severity": "medium",
+      "type": "buffer-overflow",
+      "owaspCategory": "A04:2021",
+      "description": "Buffers dinámicos pueden causar overflows o ataques de memoria",
+      "alternatives": ["Buffer.from() con validación", "Límites de tamaño", "ArrayBuffer con checks"],
+      "examples": ["Buffer(`${userInput}`)"]
+    },
+    {
+      "selector": "CallExpression[callee.property.name='createReadStream'][arguments.0.type='TemplateLiteral']",
+      "message": "createReadStream con path dinámico. RIESGO: Path traversal. Valida path.",
+      "severity": "high",
+      "type": "path-traversal",
+      "owaspCategory": "A01:2021",
+      "description": "Streams con paths dinámicos pueden acceder archivos no autorizados",
+      "alternatives": ["path.resolve() con validación", "Lista blanca de paths", "Sandbox de archivos"],
+      "examples": ["fs.createReadStream(`./uploads/${userFile}`)"]
+    }
+  ]
+}

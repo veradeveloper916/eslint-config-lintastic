@@ -3,10 +3,11 @@
     "baseUrl": ".",
     "module": "commonjs",
     "paths": {
-      "#lib/*": ["/lib/*.js"],
+      "#lib/*": ["./lib/*.js"],
       "#src/*": ["./src/*.js"],
-      "#test/*": ["./test/*.js"]
+      "#test/*": ["./tests/*.js"]
+    
     }
   },
-  "include": ["src", "lib", "test"]
+  "include": ["src", "lib", "tests"]
 }

@@ -1,0 +1,143 @@
+{
+  "metadata": {
+    "category": "high",
+    "severity": "⚠️ HIGH",
+    "description": "Vulnerabilidades de alta severidad que requieren atención urgente",
+    "cvss_range": "7.0-8.9",
+    "action": "alert",
+    "lastUpdated": "2024-10-08",
+    "version": "1.0.0"
+  },
+  "dependencies": [
+    {
+      "name": "morgan",
+      "version": "*",
+      "vulnerability": "Information disclosure",
+      "cve": "CVE-2022-29622",
+      "description": "Puede exponer información sensible en logs",
+      "alternatives": [
+        "winston con configuración segura",
+        "pino (más rápido y configurable)",
+        "bunyan con filtros de seguridad"
+      ],
+      "fix": "Usar winston o pino con configuración segura de logs",
+      "references": [
+        "https://nvd.nist.gov/vuln/detail/CVE-2022-29622"
+      ]
+    },
+    {
+      "name": "dotenv",
+      "version": "*",
+      "vulnerability": "Secret exposure risk",
+      "cve": "N/A - Best practice",
+      "description": "Riesgo de exposición accidental de secrets en desarrollo",
+      "alternatives": [
+        "process.env nativo",
+        "docker secrets",
+        "kubernetes secrets",
+        "HashiCorp Vault"
+      ],
+      "fix": "Usar variables de entorno nativas o gestores de secrets",
+      "references": [
+        "https://12factor.net/config"
+      ]
+    },
+    {
+      "name": "request",
+      "version": "*",
+      "vulnerability": "Deprecated, potential vulnerabilities",
+      "cve": "Multiple historical CVEs",
+      "description": "Librería deprecada sin mantenimiento desde 2020",
+      "alternatives": [
+        "axios (con configuración segura)",
+        "node-fetch",
+        "undici",
+        "fetch nativo Node.js 18+"
+      ],
+      "fix": "Migrar a axios, node-fetch o fetch nativo",
+      "references": [
+        "https://github.com/request/request/issues/3142"
+      ]
+    },
+    {
+      "name": "http-errors",
+      "version": "<2.0.0",
+      "vulnerability": "Information disclosure",
+      "cve": "CVE-2022-24434",
+      "description": "Puede exponer stack traces en producción",
+      "alternatives": [
+        "Clases de error personalizadas",
+        "boom (más seguro)",
+        "http-status-codes con manejo personalizado"
+      ],
+      "fix": "Implementar clases de error personalizadas",
+      "references": [
+        "https://nvd.nist.gov/vuln/detail/CVE-2022-24434"
+      ]
+    },
+    {
+      "name": "numeral",
+      "version": "*",
+      "vulnerability": "Abandoned project",
+      "cve": "N/A - Maintenance issue",
+      "description": "Proyecto abandonado desde 2017, sin parches de seguridad",
+      "alternatives": [
+        "Intl.NumberFormat (nativo)",
+        "numbro (fork mantenido)",
+        "accounting-js"
+      ],
+      "fix": "Usar Intl.NumberFormat nativo o numbro",
+      "references": [
+        "https://github.com/adamwdraper/Numeral-js"
+      ]
+    },
+    {
+      "name": "sort-by",
+      "version": "*",
+      "vulnerability": "Potential prototype pollution",
+      "cve": "N/A - Pattern based",
+      "description": "Riesgo de prototype pollution en funciones de ordenamiento",
+      "alternatives": [
+        "Array.sort() nativo",
+        "lodash/fp orderBy (versión funcional)",
+        "ramda sortBy"
+      ],
+      "fix": "Usar Array.sort() con comparadores personalizados",
+      "references": [
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort"
+      ]
+    },
+    {
+      "name": "cookie-parser",
+      "version": "<1.4.6",
+      "vulnerability": "Cookie parsing vulnerabilities",
+      "cve": "CVE-2022-25901",
+      "description": "Vulnerabilidades en el parsing de cookies",
+      "alternatives": [
+        "Actualizar a versión segura",
+        "cookie parsing manual con validación",
+        "fastify-cookie (más seguro)"
+      ],
+      "fix": "Actualizar a cookie-parser@1.4.6+",
+      "references": [
+        "https://nvd.nist.gov/vuln/detail/CVE-2022-25901"
+      ]
+    },
+    {
+      "name": "body-parser",
+      "version": "<1.20.0",
+      "vulnerability": "DOS attacks",
+      "cve": "CVE-2022-29550",
+      "description": "Vulnerabilidades de denegación de servicio",
+      "alternatives": [
+        "express.json() y express.urlencoded() (incluidos en Express 4.16+)",
+        "fastify body parser",
+        "koa-bodyparser"
+      ],
+      "fix": "Usar express.json() built-in o actualizar body-parser",
+      "references": [
+        "https://nvd.nist.gov/vuln/detail/CVE-2022-29550"
+      ]
+    }
+  ]
+}

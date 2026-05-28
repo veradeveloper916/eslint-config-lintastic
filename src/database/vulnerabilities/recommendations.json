@@ -1,0 +1,175 @@
+{
+  "metadata": {
+    "category": "recommendations",
+    "severity": "💡 INFO",
+    "description": "Recomendaciones de seguridad y mejores prácticas DevSecOps",
+    "cvss_range": "0.0-3.9",
+    "action": "suggest",
+    "lastUpdated": "2024-10-08",
+    "version": "1.0.0"
+  },
+  "dependencies": [
+    {
+      "name": "express",
+      "version": "*",
+      "vulnerability": "Requires security configuration",
+      "cve": "N/A - Best practice",
+      "description": "Express requiere configuración adicional de seguridad",
+      "alternatives": [
+        "fastify (más seguro por defecto)",
+        "koa (más minimalista)",
+        "nest.js (enterprise-ready)"
+      ],
+      "fix": "Configurar helmet, cors, rate-limiting y HTTPS",
+      "references": [
+        "https://expressjs.com/en/advanced/best-practice-security.html"
+      ]
+    },
+    {
+      "name": "nodemon",
+      "version": "*",
+      "vulnerability": "Development only",
+      "cve": "N/A - Best practice",
+      "description": "No debe usarse en producción",
+      "alternatives": [
+        "pm2 para producción",
+        "docker containers",
+        "systemd services"
+      ],
+      "fix": "Usar solo en desarrollo, pm2 en producción",
+      "references": [
+        "https://pm2.keymetrics.io/"
+      ]
+    },
+    {
+      "name": "debug",
+      "version": "*",
+      "vulnerability": "Information disclosure in production",
+      "cve": "N/A - Best practice",
+      "description": "Puede exponer información en producción si no se configura NODE_ENV",
+      "alternatives": [
+        "winston con niveles apropiados",
+        "pino con configuración por entorno",
+        "console con guards de NODE_ENV"
+      ],
+      "fix": "Configurar NODE_ENV=production y usar loggers apropiados",
+      "references": [
+        "https://12factor.net/logs"
+      ]
+    },
+    {
+      "name": "mongoose",
+      "version": "<6.0.0",
+      "vulnerability": "NoSQL injection potential",
+      "cve": "N/A - Best practice",
+      "description": "Versiones antiguas más susceptibles a NoSQL injection",
+      "alternatives": [
+        "Actualizar a mongoose@6.0.0+",
+        "prisma (type-safe)",
+        "mongodb driver nativo con validación"
+      ],
+      "fix": "Actualizar mongoose y usar esquemas estrictos",
+      "references": [
+        "https://cheatsheetseries.owasp.org/cheatsheets/Injection_Prevention_Cheat_Sheet.html"
+      ]
+    },
+    {
+      "name": "bcrypt",
+      "version": "<5.0.0",
+      "vulnerability": "Outdated hashing configuration",
+      "cve": "N/A - Best practice",
+      "description": "Versiones antiguas con configuración de hash subóptima",
+      "alternatives": [
+        "Actualizar a bcrypt@5.0.0+",
+        "scrypt (más moderno)",
+        "argon2 (recomendado OWASP)"
+      ],
+      "fix": "Actualizar bcrypt o migrar a argon2",
+      "references": [
+        "https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html"
+      ]
+    },
+    {
+      "name": "passport",
+      "version": "<0.6.0",
+      "vulnerability": "Authentication best practices",
+      "cve": "N/A - Best practice",
+      "description": "Configuración de autenticación mejorada en versiones nuevas",
+      "alternatives": [
+        "Actualizar a passport@0.6.0+",
+        "auth0 (managed service)",
+        "okta (enterprise)",
+        "JWT con implementación personalizada"
+      ],
+      "fix": "Actualizar passport y revisar estrategias de autenticación",
+      "references": [
+        "https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html"
+      ]
+    },
+    {
+      "name": "sequelize",
+      "version": "<6.0.0",
+      "vulnerability": "SQL injection mitigation improvements",
+      "cve": "N/A - Best practice",
+      "description": "Mejoras en prevención de SQL injection en versiones nuevas",
+      "alternatives": [
+        "Actualizar a sequelize@6.0.0+",
+        "prisma (type-safe)",
+        "knex con query builder",
+        "typeorm"
+      ],
+      "fix": "Actualizar sequelize y usar prepared statements",
+      "references": [
+        "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html"
+      ]
+    },
+    {
+      "name": "sharp",
+      "version": "<0.30.0",
+      "vulnerability": "Image processing security improvements",
+      "cve": "N/A - Best practice",
+      "description": "Mejoras de seguridad en procesamiento de imágenes",
+      "alternatives": [
+        "Actualizar a sharp@0.30.0+",
+        "jimp (más ligero)",
+        "imagemagick con sanitización"
+      ],
+      "fix": "Actualizar sharp y validar entrada de imágenes",
+      "references": [
+        "https://sharp.pixelplumbing.com/"
+      ]
+    },
+    {
+      "name": "cheerio",
+      "version": "<1.0.0-rc.10",
+      "vulnerability": "HTML parsing security improvements",
+      "cve": "N/A - Best practice",
+      "description": "Mejoras en parsing HTML seguro",
+      "alternatives": [
+        "Actualizar a cheerio@1.0.0-rc.10+",
+        "jsdom con sanitización",
+        "parse5 con validación"
+      ],
+      "fix": "Actualizar cheerio y sanitizar HTML de entrada",
+      "references": [
+        "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html"
+      ]
+    },
+    {
+      "name": "socket.io",
+      "version": "<4.0.0",
+      "vulnerability": "WebSocket security improvements",
+      "cve": "N/A - Best practice",
+      "description": "Mejoras de seguridad en comunicación WebSocket",
+      "alternatives": [
+        "Actualizar a socket.io@4.0.0+",
+        "ws con configuración segura",
+        "uws (más rápido)"
+      ],
+      "fix": "Actualizar socket.io y configurar CORS/autenticación",
+      "references": [
+        "https://socket.io/docs/v4/security/"
+      ]
+    }
+  ]
+}

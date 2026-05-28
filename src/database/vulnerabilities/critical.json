@@ -1,0 +1,129 @@
+{
+  "metadata": {
+    "category": "critical",
+    "severity": "🔴 CRITICAL",
+    "description": "Vulnerabilidades críticas que bloquean el build automáticamente",
+    "cvss_range": "9.0-10.0",
+    "action": "block",
+    "lastUpdated": "2024-10-08",
+    "version": "1.0.0"
+  },
+  "dependencies": [
+    {
+      "name": "lodash",
+      "version": "<4.17.21",
+      "vulnerability": "Prototype pollution",
+      "cve": "CVE-2019-10744",
+      "description": "Permite manipulación de prototipos JavaScript que puede llevar a RCE",
+      "alternatives": [
+        "Usar métodos nativos de JavaScript (Array.map, Object.keys, etc.)",
+        "Ramda (funcional y sin mutaciones)",
+        "https://youmightnotneed.com/lodash"
+      ],
+      "fix": "Actualizar a lodash@4.17.21 o superior",
+      "references": [
+        "https://nvd.nist.gov/vuln/detail/CVE-2019-10744",
+        "https://github.com/lodash/lodash/commit/d8e069cc"
+      ]
+    },
+    {
+      "name": "axios",
+      "version": "<0.21.2", 
+      "vulnerability": "SSRF vulnerabilities",
+      "cve": "CVE-2021-3749",
+      "description": "Server-Side Request Forgery que permite ataques internos",
+      "alternatives": [
+        "node-fetch (más ligero)",
+        "fetch nativo de Node.js 18+",
+        "undici (oficial de Node.js)"
+      ],
+      "fix": "Actualizar a axios@0.21.2 o superior",
+      "references": [
+        "https://nvd.nist.gov/vuln/detail/CVE-2021-3749",
+        "https://github.com/axios/axios/releases/tag/v0.21.2"
+      ]
+    },
+    {
+      "name": "moment",
+      "version": "*",
+      "vulnerability": "Multiple CVEs, deprecated",
+      "cve": "CVE-2022-24785, CVE-2022-31129",
+      "description": "Librería deprecada con múltiples vulnerabilidades sin mantenimiento",
+      "alternatives": [
+        "date-fns (modular y tree-shakable)",
+        "dayjs (compatible con moment.js API)",
+        "Luxon (más moderno)",
+        "Date nativo de JavaScript"
+      ],
+      "fix": "Migrar a date-fns, dayjs o Date nativo",
+      "references": [
+        "https://nvd.nist.gov/vuln/detail/CVE-2022-24785",
+        "https://momentjs.com/docs/#/-project-status/"
+      ]
+    },
+    {
+      "name": "xml2js",
+      "version": "<0.5.0",
+      "vulnerability": "XXE attacks",
+      "cve": "CVE-2023-0842",
+      "description": "Vulnerable a XML External Entity injection attacks",
+      "alternatives": [
+        "fast-xml-parser con configuración segura",
+        "xml-js con validación",
+        "Parsers XML nativos con sanitización"
+      ],
+      "fix": "Actualizar a xml2js@0.5.0+ o usar fast-xml-parser",
+      "references": [
+        "https://nvd.nist.gov/vuln/detail/CVE-2023-0842"
+      ]
+    },
+    {
+      "name": "handlebars",
+      "version": "<4.7.7",
+      "vulnerability": "Template injection",
+      "cve": "CVE-2021-23383",
+      "description": "Permite ejecución de código a través de template injection",
+      "alternatives": [
+        "mustache (logic-less templates)",
+        "nunjucks con configuración segura",
+        "Template literals nativos"
+      ],
+      "fix": "Actualizar a handlebars@4.7.7+ con configuración segura",
+      "references": [
+        "https://nvd.nist.gov/vuln/detail/CVE-2021-23383"
+      ]
+    },
+    {
+      "name": "crypto-js",
+      "version": "*",
+      "vulnerability": "Weak cryptographic implementations",
+      "cve": "CVE-2023-46233",
+      "description": "Implementaciones criptográficas débiles y vulnerabilidades",
+      "alternatives": [
+        "Node.js crypto nativo",
+        "webcrypto API",
+        "libsodium-wrappers"
+      ],
+      "fix": "Usar Node.js crypto nativo para operaciones criptográficas",
+      "references": [
+        "https://nvd.nist.gov/vuln/detail/CVE-2023-46233"
+      ]
+    },
+    {
+      "name": "eval",
+      "version": "*",
+      "vulnerability": "Code injection",
+      "cve": "N/A - Pattern based",
+      "description": "Permite ejecución de código arbitrario",
+      "alternatives": [
+        "JSON.parse para parsing seguro",
+        "Function constructors específicos",
+        "Sandboxing apropiado"
+      ],
+      "fix": "Evitar eval() completamente",
+      "references": [
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval#never_use_eval!"
+      ]
+    }
+  ]
+}

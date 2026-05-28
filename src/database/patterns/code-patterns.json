@@ -1,0 +1,133 @@
+{
+  "metadata": {
+    "category": "code-patterns",
+    "type": "Code quality and maintainability patterns",
+    "description": "Patrones de código para calidad y mantenibilidad",
+    "lastUpdated": "2024-10-08",
+    "version": "1.0.0",
+    "totalPatterns": 15
+  },
+  "patterns": [
+    {
+      "selector": "FunctionDeclaration[params.length>4]",
+      "message": "Función con más de 4 parámetros. Considera usar objetos de configuración.",
+      "severity": "medium",
+      "type": "code-quality",
+      "description": "Funciones con muchos parámetros son difíciles de mantener",
+      "alternatives": ["Objeto de opciones", "Builder pattern", "Partial application"],
+      "examples": ["function process(a, b, c, d, e) {}"]
+    },
+    {
+      "selector": "FunctionExpression[params.length>4]",
+      "message": "Función con más de 4 parámetros. Considera usar objetos de configuración.",
+      "severity": "medium",
+      "type": "code-quality",
+      "description": "Expresiones de función con muchos parámetros reducen legibilidad",
+      "alternatives": ["Destructuring de objetos", "Currying", "Configuration objects"]
+    },
+    {
+      "selector": "ArrowFunctionExpression[params.length>4]",
+      "message": "Arrow function con más de 4 parámetros. Considera usar objetos de configuración.",
+      "severity": "medium", 
+      "type": "code-quality",
+      "description": "Arrow functions con muchos parámetros son menos legibles",
+      "alternatives": ["Object destructuring", "Partial application", "Factory functions"]
+    },
+    {
+      "selector": "BlockStatement[body.length>50]",
+      "message": "Bloque de código muy largo (>50 líneas). Considera refactorizar.",
+      "severity": "low",
+      "type": "code-quality",
+      "description": "Bloques largos de código son difíciles de entender y mantener",
+      "alternatives": ["Extracción de funciones", "Composición", "Separación de responsabilidades"]
+    },
+    {
+      "selector": "IfStatement > IfStatement > IfStatement > IfStatement",
+      "message": "Anidación excesiva de if statements. Considera early returns o switch.",
+      "severity": "medium",
+      "type": "code-quality",
+      "description": "Anidación profunda reduce la legibilidad del código",
+      "alternatives": ["Early returns", "Guard clauses", "Switch statements", "Strategy pattern"]
+    },
+    {
+      "selector": "CallExpression[callee.object.name='console'][callee.property.name='log']",
+      "message": "console.log encontrado. Considera usar un logger apropiado para producción.",
+      "severity": "low",
+      "type": "code-quality",
+      "description": "console.log no es apropiado para aplicaciones de producción",
+      "alternatives": ["winston", "pino", "bunyan", "debug module"]
+    },
+    {
+      "selector": "CallExpression[callee.object.name='console'][callee.property.name='error']",
+      "message": "console.error encontrado. Considera usar un logger estructurado.",
+      "severity": "low",
+      "type": "code-quality",
+      "description": "console.error no proporciona logging estructurado",
+      "alternatives": ["winston.error()", "pino.error()", "Structured logging"]
+    },
+    {
+      "selector": "VariableDeclarator[id.name=/^[a-z]$/]",
+      "message": "Variable con nombre de una sola letra. Usa nombres descriptivos.",
+      "severity": "low",
+      "type": "code-quality",
+      "description": "Variables con nombres cortos reducen la comprensión del código",
+      "alternatives": ["Nombres descriptivos", "Convenciones de nomenclatura", "Meaningful names"]
+    },
+    {
+      "selector": "FunctionDeclaration[id.name=/^[a-z]$/]",
+      "message": "Función con nombre de una sola letra. Usa nombres descriptivos.",
+      "severity": "medium",
+      "type": "code-quality", 
+      "description": "Funciones con nombres cortos son difíciles de entender",
+      "alternatives": ["Nombres verbosos", "Action-oriented names", "Clear intentions"]
+    },
+    {
+      "selector": "CatchClause[param=null]",
+      "message": "Catch clause sin parámetro de error. Considera manejar el error específicamente.",
+      "severity": "medium",
+      "type": "error-handling",
+      "description": "Catch sin parámetro puede ocultar errores importantes",
+      "alternatives": ["catch (error)", "Specific error handling", "Error logging"]
+    },
+    {
+      "selector": "CatchClause > BlockStatement[body.length=0]",
+      "message": "Catch clause vacío. Los errores deben ser manejados apropiadamente.",
+      "severity": "high",
+      "type": "error-handling",
+      "description": "Catch vacíos ocultan errores y dificultan el debugging",
+      "alternatives": ["Error logging", "Error propagation", "Graceful degradation"]
+    },
+    {
+      "selector": "ForStatement[init.declarations.length>1]",
+      "message": "For loop con múltiples declaraciones. Considera separar la lógica.",
+      "severity": "low",
+      "type": "code-quality",
+      "description": "For loops complejos son difíciles de leer y mantener",
+      "alternatives": ["Separate variable declarations", "forEach/map", "for...of loops"]
+    },
+    {
+      "selector": "WhileStatement[test.type='Literal'][test.value=true]",
+      "message": "While(true) loop detectado. Asegúrate de tener condiciones de salida claras.",
+      "severity": "medium",
+      "type": "infinite-loop-risk",
+      "description": "While(true) loops pueden causar loops infinitos",
+      "alternatives": ["Condiciones de break claras", "for loops con límites", "Timeout mechanisms"]
+    },
+    {
+      "selector": "BinaryExpression[operator='=='][left.type='Literal'][left.value=null]",
+      "message": "Comparación con == null. Considera usar === para comparaciones estrictas.",
+      "severity": "low",
+      "type": "code-quality",
+      "description": "== null puede tener comportamientos inesperados con undefined",
+      "alternatives": ["=== null", "!= null", "Optional chaining"]
+    },
+    {
+      "selector": "BinaryExpression[operator='!='][left.type='Literal'][left.value=null]",
+      "message": "Comparación con != null. Considera usar !== para comparaciones estrictas.",
+      "severity": "low",
+      "type": "code-quality",
+      "description": "!= null puede tener comportamientos inesperados",
+      "alternatives": ["!== null", "Optional chaining", "Explicit undefined checks"]
+    }
+  ]
+}
